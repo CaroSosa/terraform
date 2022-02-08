@@ -1,6 +1,6 @@
 /////////////VPC
 resource "aws_vpc" "vpc" {
-  cidr_block= var.cidr_block
+  cidr_block = var.cidr_block
   tags = {
     Name = var.Name
   }
@@ -8,8 +8,8 @@ resource "aws_vpc" "vpc" {
 ////////////SUBNETS
 /*publicas*/
 resource "aws_subnet" "subnet-publica-1" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = var.cidr_block_subnet[0]
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.cidr_block_subnet[0]
   availability_zone = var.availability_zone[0]
   tags = {
     Name = var.Name_subnet[0]
@@ -17,8 +17,8 @@ resource "aws_subnet" "subnet-publica-1" {
 }
 
 resource "aws_subnet" "subnet-publica-2" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = var.cidr_block_subnet[1]
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.cidr_block_subnet[1]
   availability_zone = var.availability_zone[1]
   tags = {
     Name = var.Name_subnet[1]
@@ -26,8 +26,8 @@ resource "aws_subnet" "subnet-publica-2" {
 }
 /*privadas*/
 resource "aws_subnet" "subnet-privada-1" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = var.cidr_block_subnet[2]
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.cidr_block_subnet[2]
   availability_zone = var.availability_zone[0]
   tags = {
     Name = var.Name_subnet[2]
@@ -35,8 +35,8 @@ resource "aws_subnet" "subnet-privada-1" {
 }
 
 resource "aws_subnet" "subnet-privada-2" {
-  vpc_id     = aws_vpc.vpc.id
-  cidr_block = var.cidr_block_subnet[3]
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = var.cidr_block_subnet[3]
   availability_zone = var.availability_zone[1]
   tags = {
     Name = var.Name_subnet[3]
@@ -52,8 +52,8 @@ resource "aws_internet_gateway" "gw" {
 }
 ///////////////NAT
 resource "aws_nat_gateway" "nat-1" {
-  allocation_id = aws_eip.elastic-ip-1.id
-  subnet_id     = aws_subnet.subnet-publica-1.id
+  allocation_id     = aws_eip.elastic-ip-1.id
+  subnet_id         = aws_subnet.subnet-publica-1.id
   connectivity_type = var.connectivity_type
   tags = {
     Name = var.Name-NAT[0]
@@ -61,8 +61,8 @@ resource "aws_nat_gateway" "nat-1" {
   depends_on = [aws_internet_gateway.gw]
 }
 resource "aws_nat_gateway" "nat-2" {
-  allocation_id = aws_eip.elastic-ip-2.id
-  subnet_id     = aws_subnet.subnet-publica-2.id
+  allocation_id     = aws_eip.elastic-ip-2.id
+  subnet_id         = aws_subnet.subnet-publica-2.id
   connectivity_type = var.connectivity_type
   tags = {
     Name = var.Name-NAT[1]
@@ -74,16 +74,16 @@ resource "aws_nat_gateway" "nat-2" {
 resource "aws_eip" "elastic-ip-1" {
   vpc = true
   tags = {
-  Name = "EI-1"
+    Name = "EI-1"
   }
-} 
+}
 
 resource "aws_eip" "elastic-ip-2" {
   vpc = true
   tags = {
-  Name = "EI-2"
+    Name = "EI-2"
   }
-} 
+}
 ////////////ROUTE TABLES
 resource "aws_route_table" "rt-private-tf-1" {
   vpc_id = aws_vpc.vpc.id
